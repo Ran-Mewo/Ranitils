@@ -1,0 +1,31 @@
+plugins {
+    id 'java'
+    id "com.github.johnrengelman.shadow" version "7.1.0"
+}
+
+group 'io.github.ran.ranitils'
+version '1.0-UwU'
+
+repositories {
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    implementation 'com.diogonunes:JColor:5.3.1'
+    implementation "net.kyori:adventure-text-minimessage:4.10.1"
+    implementation "net.kyori:adventure-text-serializer-legacy:4.10.1"
+    implementation 'org.javassist:javassist:3.29.0-GA'
+}
+
+shadowJar {
+    classifier ""
+    duplicatesStrategy = DuplicatesStrategy.INHERIT
+
+    relocate 'net.kyori', 'io.github.ran.ranitils.shaded.net.kyori'
+    relocate 'com.diogonunes', 'io.github.ran.ranitils.shaded.com.diogonunes'
+    relocate 'javassist', 'io.github.ran.ranitils.shaded.javassist'
+
+    mergeServiceFiles()
+}
+jar.finalizedBy(shadowJar)
